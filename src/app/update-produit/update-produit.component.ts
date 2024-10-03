@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProduitService } from '../services/produit.service';
 import { Produit } from '../model/produit.model';
 
@@ -11,6 +11,8 @@ import { Produit } from '../model/produit.model';
 export class UpdateProduitComponent {
   currentProduit= new Produit();
   constructor(private activatedRoute: ActivatedRoute,
+    private router :Router,
+
     private produitService: ProduitService){
 
   }
@@ -22,6 +24,9 @@ export class UpdateProduitComponent {
   }
   updateProduit()
   {
-    console.log(this.currentProduit);
+   // console.log(this.currentProduit);
+   this.produitService.updateProduit(this.currentProduit);
+   this.router.navigate(['produits']);
+
   }
 }
