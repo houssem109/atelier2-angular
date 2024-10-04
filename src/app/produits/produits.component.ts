@@ -11,7 +11,9 @@ export class ProduitsComponent implements OnInit {
   produits? : Produit[]
   
   constructor(private produitService: ProduitService ) {
+    
     //this.produits=[]
+    
     }
   ngOnInit(): void {
     this.produits = this.produitService.listeProduits();
