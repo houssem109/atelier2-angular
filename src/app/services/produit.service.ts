@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Produit } from '../model/produit.model';
 import { Observable } from 'rxjs';
+import { Categorie } from '../model/categorie.model';
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
-const httpOptions = {headers: new HttpHeaders( {'Content-Type': 'application/json'} )
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 
@@ -13,13 +16,14 @@ const httpOptions = {headers: new HttpHeaders( {'Content-Type': 'application/jso
 })
 export class ProduitService {
 
-  
-  produits! : Produit[]; //un tableau de Produit
+
+  produits!: Produit[]; //un tableau de Produit
+  categories!: Categorie[];
 
   apiURL: string = 'http://localhost:8090/produits/api';
 
 
-  constructor(private http : HttpClient) {
+  constructor(private http: HttpClient) {
     /* console.log("creation de produit service")
     this.produits = [
 
@@ -31,16 +35,16 @@ export class ProduitService {
   /* listeProduits(): Produit[] {
     return this.produits;
   } */
-  listeProduit(): Observable<Produit[]>{
+  listeProduit(): Observable<Produit[]> {
     return this.http.get<Produit[]>(this.apiURL);
-    }
-    
- /*  ajouterProduit(prod: Produit) {
-    this.produits.push(prod);
-  } */
-    ajouterProduit( prod: Produit):Observable<Produit>{
-      return this.http.post<Produit>(this.apiURL, prod, httpOptions);
-      }
+  }
+
+  /*  ajouterProduit(prod: Produit) {
+     this.produits.push(prod);
+   } */
+  ajouterProduit(prod: Produit): Observable<Produit> {
+    return this.http.post<Produit>(this.apiURL, prod, httpOptions);
+  }
   /* supprimerProduit(prod: Produit) {
     //supprimer le produit prod du tableau produits
     const index = this.produits.indexOf(prod, 0);
@@ -54,13 +58,13 @@ export class ProduitService {
     }
     }); 
   } */
- supprimerProduit(id : number) {
-const url = `${this.apiURL}/${id}`;
-return this.http.delete(url, httpOptions);
-}
-  consulterProduit(id: number): Produit {
-    return this.produits.find(p => p.idProduit == id)!;
-
+  supprimerProduit(id: number) {
+    const url = `${this.apiURL}/${id}`;
+    return this.http.delete(url, httpOptions);
+  }
+  consulterProduit(id: number): Observable<Produit> {
+    const url = `${this.apiURL}/${id}`;
+    return this.http.get<Produit>(url);
   }
   trierProduits() {
     this.produits = this.produits.sort((n1, n2) => {
@@ -73,11 +77,19 @@ return this.http.delete(url, httpOptions);
       return 0;
     });
   }
-  updateProduit(p: Produit) {
-    // console.log(p);
-    /*this.supprimerProduit(p);
-    this.ajouterProduit(p);
-    this.trierProduits();*/
+  updateProduit(prod: Produit): Observable<Produit> {
+    return this.http.put<Produit>(this.apiURL, prod, httpOptions);
   }
 
+
+
+
+  listeCategories(): Categorie[] {
+    return this.categories;
+  }
+
+
+  consulterCategorie(id: number): Categorie {
+    return this.categories.find(cat => cat.idCat == id)!;
+  }
 }
