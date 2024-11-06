@@ -18,11 +18,18 @@ export class AddProduitComponent implements OnInit {
   }
   ngOnInit(): void {
   }
-  addProduit(){
+  /* addProduit(){
     // console.log(this.newProduit);
     this.produitService.ajouterProduit(this.newProduit);
     this.message="produit "+this.newProduit.nomProduit+"ajouter avec succes"
     this.router.navigate(['produits']);
-    }
-    
+    } */
+    addProduit(){
+      this.produitService.ajouterProduit(this.newProduit)
+      .subscribe(prod => {
+      console.log(prod);
+      this.router.navigate(['produits']);
+      });
+      }
+      
 }

@@ -15,6 +15,7 @@ export class ProduitService {
 
   
   produits! : Produit[]; //un tableau de Produit
+
   apiURL: string = 'http://localhost:8090/produits/api';
 
 
@@ -34,22 +35,29 @@ export class ProduitService {
     return this.http.get<Produit[]>(this.apiURL);
     }
     
-  ajouterProduit(prod: Produit) {
+ /*  ajouterProduit(prod: Produit) {
     this.produits.push(prod);
-  }
-  supprimerProduit(prod: Produit) {
+  } */
+    ajouterProduit( prod: Produit):Observable<Produit>{
+      return this.http.post<Produit>(this.apiURL, prod, httpOptions);
+      }
+  /* supprimerProduit(prod: Produit) {
     //supprimer le produit prod du tableau produits
     const index = this.produits.indexOf(prod, 0);
     if (index > -1) {
       this.produits.splice(index, 1);
     }
     //ou Bien
-    /* this.produits.forEach((cur, index) => {
+     this.produits.forEach((cur, index) => {
     if(prod.idProduit === cur.idProduit) {
     this.produits.splice(index, 1);
     }
-    }); */
-  }
+    }); 
+  } */
+ supprimerProduit(id : number) {
+const url = `${this.apiURL}/${id}`;
+return this.http.delete(url, httpOptions);
+}
   consulterProduit(id: number): Produit {
     return this.produits.find(p => p.idProduit == id)!;
 
@@ -67,9 +75,9 @@ export class ProduitService {
   }
   updateProduit(p: Produit) {
     // console.log(p);
-    this.supprimerProduit(p);
+    /*this.supprimerProduit(p);
     this.ajouterProduit(p);
-    this.trierProduits();
+    this.trierProduits();*/
   }
 
 }
